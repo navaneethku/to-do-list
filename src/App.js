@@ -1,25 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
+import React, { useState } from "react";
+import "./App.css";
+const App = () => {
+  // const [value, setValue] = useState("Jhone Doe");
+  const [inputValue, setInputValue] = useState("");
+  const [lists, setLists] = useState([]);
+  const update = () => {
+    let obj = {
+      id: lists.length,
+      name: inputValue,
+    };
+    if (inputValue) {
+      setLists([...lists, obj]);
+      setInputValue("");
+    }
+  };
+  const deleteObj = (id) => {
+    let new_array = lists.filter((item) => item.id !== id);
+    setLists(new_array)
+  };
+  console.log(lists);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <h1>ToDo List</h1>
+      <ul>
+        {lists.map((item, i) => (
+          <li key={i}>
+            {item.name}
+            <button onClick={() => deleteObj(item.id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
+      <input
+        placeholder="Enter Here"
+        onChange={(e) => {
+          setInputValue(e.target.value);
+        }}
+        value={inputValue}
+      ></input>
+      <button onClick={() => update()}>Add New</button>
+    </>
   );
-}
-
+};
 export default App;
